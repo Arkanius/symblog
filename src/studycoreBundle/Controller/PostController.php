@@ -1,27 +1,27 @@
 <?php
 
-namespace study\ModelBundle\Controller;
+namespace study\studycoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use study\ModelBundle\Entity\Author;
-use study\ModelBundle\Form\AuthorType;
+use study\ModelBundle\Entity\Post;
+use study\ModelBundle\Form\PostType;
 
 /**
- * Author controller.
+ * Post controller.
  *
- * @Route("/author")
+ * @Route("/post")
  */
-class AuthorController extends Controller
+class PostController extends Controller
 {
 
     /**
-     * Lists all Author entities.
+     * Lists all Post entities.
      *
-     * @Route("/", name="author")
+     * @Route("/", name="post")
      * @Method("GET")
      * @Template()
      */
@@ -29,22 +29,22 @@ class AuthorController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('studyModelBundle:Author')->findAll();
+        $entities = $em->getRepository('studyModelBundle:Post')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Author entity.
+     * Creates a new Post entity.
      *
-     * @Route("/", name="author_create")
+     * @Route("/", name="post_create")
      * @Method("POST")
-     * @Template("studyModelBundle:Author:new.html.twig")
+     * @Template("studycoreBundle:Post:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Author();
+        $entity = new Post();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -53,7 +53,7 @@ class AuthorController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('author_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('post_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -63,16 +63,16 @@ class AuthorController extends Controller
     }
 
     /**
-     * Creates a form to create a Author entity.
+     * Creates a form to create a Post entity.
      *
-     * @param Author $entity The entity
+     * @param Post $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Author $entity)
+    private function createCreateForm(Post $entity)
     {
-        $form = $this->createForm(new AuthorType(), $entity, array(
-            'action' => $this->generateUrl('author_create'),
+        $form = $this->createForm(new PostType(), $entity, array(
+            'action' => $this->generateUrl('post_create'),
             'method' => 'POST',
         ));
 
@@ -82,15 +82,15 @@ class AuthorController extends Controller
     }
 
     /**
-     * Displays a form to create a new Author entity.
+     * Displays a form to create a new Post entity.
      *
-     * @Route("/new", name="author_new")
+     * @Route("/new", name="post_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Author();
+        $entity = new Post();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -100,9 +100,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Finds and displays a Author entity.
+     * Finds and displays a Post entity.
      *
-     * @Route("/{id}", name="author_show")
+     * @Route("/{id}", name="post_show")
      * @Method("GET")
      * @Template()
      */
@@ -110,10 +110,10 @@ class AuthorController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('studyModelBundle:Author')->find($id);
+        $entity = $em->getRepository('studyModelBundle:Post')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Author entity.');
+            throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -125,9 +125,9 @@ class AuthorController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Author entity.
+     * Displays a form to edit an existing Post entity.
      *
-     * @Route("/{id}/edit", name="author_edit")
+     * @Route("/{id}/edit", name="post_edit")
      * @Method("GET")
      * @Template()
      */
@@ -135,10 +135,10 @@ class AuthorController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('studyModelBundle:Author')->find($id);
+        $entity = $em->getRepository('studyModelBundle:Post')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Author entity.');
+            throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -152,16 +152,16 @@ class AuthorController extends Controller
     }
 
     /**
-    * Creates a form to edit a Author entity.
+    * Creates a form to edit a Post entity.
     *
-    * @param Author $entity The entity
+    * @param Post $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Author $entity)
+    private function createEditForm(Post $entity)
     {
-        $form = $this->createForm(new AuthorType(), $entity, array(
-            'action' => $this->generateUrl('author_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new PostType(), $entity, array(
+            'action' => $this->generateUrl('post_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -170,20 +170,20 @@ class AuthorController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Author entity.
+     * Edits an existing Post entity.
      *
-     * @Route("/{id}", name="author_update")
+     * @Route("/{id}", name="post_update")
      * @Method("PUT")
-     * @Template("studyModelBundle:Author:edit.html.twig")
+     * @Template("studyModelBundle:Post:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('studyModelBundle:Author')->find($id);
+        $entity = $em->getRepository('studyModelBundle:Post')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Author entity.');
+            throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -193,7 +193,7 @@ class AuthorController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('author_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('post_edit', array('id' => $id)));
         }
 
         return array(
@@ -203,9 +203,9 @@ class AuthorController extends Controller
         );
     }
     /**
-     * Deletes a Author entity.
+     * Deletes a Post entity.
      *
-     * @Route("/{id}", name="author_delete")
+     * @Route("/{id}", name="post_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -215,21 +215,21 @@ class AuthorController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('studyModelBundle:Author')->find($id);
+            $entity = $em->getRepository('studyModelBundle:Post')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Author entity.');
+                throw $this->createNotFoundException('Unable to find Post entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('author'));
+        return $this->redirect($this->generateUrl('post'));
     }
 
     /**
-     * Creates a form to delete a Author entity by id.
+     * Creates a form to delete a Post entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -238,7 +238,7 @@ class AuthorController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('author_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('post_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

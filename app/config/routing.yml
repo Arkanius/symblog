@@ -1,10 +1,5 @@
 studysymblog:
-    resource: "@studysymblogBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-study_model:
-    resource: "@studyModelBundle/Controller/"
+    resource: "@studycoreBundle/Controller/"
     type:     annotation
     prefix:   /
 
