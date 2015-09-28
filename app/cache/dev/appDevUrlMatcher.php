@@ -132,6 +132,90 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'study_symblog_default_index')), array (  '_controller' => 'study\\symblogBundle\\Controller\\DefaultController::indexAction',));
         }
 
+        if (0 === strpos($pathinfo, '/author')) {
+            // author
+            if (rtrim($pathinfo, '/') === '/author') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_author;
+                }
+
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'author');
+                }
+
+                return array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::indexAction',  '_route' => 'author',);
+            }
+            not_author:
+
+            // author_create
+            if ($pathinfo === '/author/') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_author_create;
+                }
+
+                return array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::createAction',  '_route' => 'author_create',);
+            }
+            not_author_create:
+
+            // author_new
+            if ($pathinfo === '/author/new') {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_author_new;
+                }
+
+                return array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::newAction',  '_route' => 'author_new',);
+            }
+            not_author_new:
+
+            // author_show
+            if (preg_match('#^/author/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_author_show;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'author_show')), array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::showAction',));
+            }
+            not_author_show:
+
+            // author_edit
+            if (preg_match('#^/author/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_author_edit;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'author_edit')), array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::editAction',));
+            }
+            not_author_edit:
+
+            // author_update
+            if (preg_match('#^/author/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ($this->context->getMethod() != 'PUT') {
+                    $allow[] = 'PUT';
+                    goto not_author_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'author_update')), array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::updateAction',));
+            }
+            not_author_update:
+
+            // author_delete
+            if (preg_match('#^/author/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                if ($this->context->getMethod() != 'DELETE') {
+                    $allow[] = 'DELETE';
+                    goto not_author_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'author_delete')), array (  '_controller' => 'study\\ModelBundle\\Controller\\AuthorController::deleteAction',));
+            }
+            not_author_delete:
+
+        }
+
         if (0 === strpos($pathinfo, '/post')) {
             // post
             if (rtrim($pathinfo, '/') === '/post') {
