@@ -1,3 +1,5 @@
-app:
-    resource: "@AppBundle/Controller/"
+studysymblog_model:
+    resource: "@studysymblogModelBundle/Controller/"
     type:     annotation
+    prefix:   /
+
