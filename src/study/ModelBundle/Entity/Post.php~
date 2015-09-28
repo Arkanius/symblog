@@ -105,28 +105,5 @@ class Post extends Timestampable
         return $this->content;
     }
 
-
-    /**
-     * Set author
-     *
-     * @param \study\ModelBundle\Entity\Author $author
-     *
-     * @return Post
-     */
-    public function setAuthor(\study\ModelBundle\Entity\Author $author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \study\ModelBundle\Entity\Author
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 }
+
